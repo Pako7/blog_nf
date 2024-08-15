@@ -7,3 +7,11 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+return unless Rails.env.development?
+
+ User.find_or_create_by!(email: "user@example.com") do |user|
+   user.name = "User 1"
+   user.password = "123123"
+   user.password_confirmation = "123123"
+ end
