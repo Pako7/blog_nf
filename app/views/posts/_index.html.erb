@@ -1,0 +1,42 @@
+<div data-controller="modal">
+  <div class="w-full">
+    <% if notice.present? %>
+      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+    <% end %>
+
+    <% content_for :title, "Posts" %>
+
+    <div class="flex justify-between items-center">
+      <h1 class="font-bold text-4xl">Posts</h1>
+    </div>
+
+    <div id="posts" class="min-w-full divide-y divide-solid">
+      <% @posts.each do |post| %>
+        <div class="p-3">
+          <h2 class="text-xl font-bold"><%= post.title %></h2>
+          <p class="text-sm text-gray-600"><%= post.created_at.strftime("%d/%b/%Y") %></p>
+          <div class="mt-4">
+            <%= post.body.truncate(200) %>
+          </div>
+          <p>
+            <button data-action="click->modal#show" class="bg-gray-100 px-2 rounded-lg" data-post-id="<%= post.id %>">Read more...</button>
+          </p>
+          <% if @user_id %>
+            <%= link_to "Edit", edit_post_path(post), class: "bg-indigo-600 px-2 text-white rounded-lg"  %>
+            <p>
+              <button data-action="click->my-posts#delete" class="bg-red-600 px-2 text-white rounded-lg" data-post-id="<%= post.id %>">Eliminar</button>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div data-modal-target="modal" class="fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center hidden">
+    <div class="relative bg-white p-6 rounded shadow-lg w-4/5 h-4/5">
+      <div data-modal-target="post">
+      </div>
+      <button data-action="click->modal#close" class="bg-blue-500 text-white px-4 py-2 rounded-full absolute right-3 bottom-3">X</button>
+    </div>
+  </div>
+</div>
