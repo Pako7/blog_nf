@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :posts, only: [:index, :new, :edit, :update]
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -7,6 +8,10 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-   root "home#index"
-  
+  root "home#index"
+  constraints format: :json do
+    namespace :api do
+      resources :posts, only: [:index, :create, :show, :update, :destroy]
+    end
+  end
 end
